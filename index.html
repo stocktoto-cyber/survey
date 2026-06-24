@@ -180,14 +180,14 @@
 
     <!-- Q3 -->
     <div class="q-block">
-      <div class="q-label"><span class="q-num">3.</span>媽咪從何知道晴媽咪食物泥（天晴工作坊）？</div>
+      <div class="q-label"><span class="q-num">3.</span>媽咪從何知道晴媽咪食物泥（天晴工作坊）？<span class="q-note">（可複選）</span></div>
       <div class="option-list">
-        <label class="option-item"><input type="radio" name="Q3_知道來源" value="FB" /><label>FB</label></label>
-        <label class="option-item"><input type="radio" name="Q3_知道來源" value="IG" /><label>IG</label></label>
-        <label class="option-item"><input type="radio" name="Q3_知道來源" value="Threads" /><label>Threads</label></label>
-        <label class="option-item"><input type="radio" name="Q3_知道來源" value="晴媽咪食物泥教養學 YT" /><label>「晴媽咪食物泥教養學」YT</label></label>
-        <label class="option-item"><input type="radio" name="Q3_知道來源" value="親友介紹" /><label>親友介紹</label></label>
-        <label class="option-item"><input type="radio" name="Q3_知道來源" value="其他" /><label>其他</label></label>
+        <label class="option-item"><input type="checkbox" name="Q3_知道來源" value="FB" /><label>FB</label></label>
+        <label class="option-item"><input type="checkbox" name="Q3_知道來源" value="IG" /><label>IG</label></label>
+        <label class="option-item"><input type="checkbox" name="Q3_知道來源" value="Threads" /><label>Threads</label></label>
+        <label class="option-item"><input type="checkbox" name="Q3_知道來源" value="晴媽咪食物泥教養學 YT" /><label>「晴媽咪食物泥教養學」YT</label></label>
+        <label class="option-item"><input type="checkbox" name="Q3_知道來源" value="親友介紹" /><label>親友介紹</label></label>
+        <label class="option-item"><input type="checkbox" name="Q3_知道來源" value="其他" id="q3-other-check" /><label>其他</label></label>
       </div>
       <input class="other-input" type="text" name="Q3_其他來源說明" id="q3-other" placeholder="請說明其他來源⋯⋯" />
     </div>
@@ -260,11 +260,8 @@
 </div>
 
 <script>
-  document.querySelectorAll('input[name="Q3_知道來源"]').forEach(r => {
-    r.addEventListener('change', () => {
-      const other = document.getElementById('q3-other');
-      other.style.display = r.value === '其他' && r.checked ? 'block' : 'none';
-    });
+  document.getElementById('q3-other-check').addEventListener('change', function() {
+    document.getElementById('q3-other').style.display = this.checked ? 'block' : 'none';
   });
 
   document.getElementById('q6-other-check').addEventListener('change', function() {
