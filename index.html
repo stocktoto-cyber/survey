@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>晴媽咪育兒問卷</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Noto Sans TC", sans-serif;
+    background: #f5f4f0;
+    color: #1a1a18;
+    min-height: 100vh;
+    padding: 2rem 1rem;
+    line-height: 1.7;
+  }
+  .form-wrap { max-width: 640px; margin: 0 auto; }
+
+  .form-header {
+    background: #fff;
+    border-radius: 12px;
+    border: 0.5px solid #e2e0d8;
+    padding: 1.5rem 1.75rem;
+    margin-bottom: 1.25rem;
+    text-align: center;
+  }
+  .form-header .logo { font-size: 32px; margin-bottom: 8px; }
+  .form-header h1 { font-size: 20px; font-weight: 600; color: #1a1a18; margin-bottom: 6px; }
+  .form-header p { font-size: 14px; color: #6b6b67; }
+
+  .q-block {
+    background: #fff;
+    border: 0.5px solid #e2e0d8;
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1rem;
+  }
+  .q-label {
+    font-size: 15px;
+    font-weight: 600;
+    color: #1a1a18;
+    margin-bottom: 0.75rem;
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+  }
+  .q-num {
+    color: #534AB7;
+    font-weight: 700;
+    min-width: 22px;
+    flex-shrink: 0;
+  }
+  .q-note {
+    font-size: 12px;
+    font-weight: 400;
+    color: #9b9b97;
+    margin-top: 2px;
+    display: block;
+  }
+  .option-list { display: flex; flex-direction: column; gap: 8px; }
+  .option-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border: 0.5px solid #e2e0d8;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .option-item:hover { background: #f5f4f0; border-color: #c8c6be; }
+  .option-item input[type="radio"],
+  .option-item input[type="checkbox"] {
+    accent-color: #534AB7;
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    cursor: pointer;
+  }
+  .option-item label { font-size: 14px; color: #1a1a18; cursor: pointer; flex: 1; }
+
+  .other-input, .text-input {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 14px;
+    border: 0.5px solid #c8c6be;
+    border-radius: 8px;
+    background: #f9f8f5;
+    color: #1a1a18;
+    font-family: inherit;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .other-input { margin-top: 8px; display: none; }
+  .other-input:focus, .text-input:focus {
+    outline: none;
+    border-color: #534AB7;
+    box-shadow: 0 0 0 3px rgba(83,74,183,0.15);
+  }
+
+  .submit-btn {
+    width: 100%;
+    padding: 14px;
+    font-size: 15px;
+    font-weight: 600;
+    background: #534AB7;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 0.5rem;
+    letter-spacing: 0.5px;
+    transition: background 0.15s;
+    font-family: inherit;
+  }
+  .submit-btn:hover { background: #3C3489; }
+  .submit-btn:active { transform: scale(0.99); }
+
+  .footer-note {
+    margin-top: 1.25rem;
+    padding: 1.25rem 1.5rem;
+    background: #fff;
+    border-radius: 12px;
+    border: 0.5px solid #e2e0d8;
+  }
+  .footer-note p { font-size: 13px; color: #6b6b67; line-height: 1.7; }
+  .footer-note a { color: #534AB7; text-decoration: none; }
+  .footer-note a:hover { text-decoration: underline; }
+  .event-badge {
+    display: inline-block;
+    background: rgba(83,74,183,0.1);
+    color: #534AB7;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 3px 12px;
+    border-radius: 99px;
+    margin-bottom: 10px;
+  }
+
+  .success-msg {
+    display: none;
+    text-align: center;
+    padding: 3rem 1.5rem;
+    background: #fff;
+    border-radius: 12px;
+    border: 0.5px solid #e2e0d8;
+  }
+  .success-msg .icon { font-size: 48px; margin-bottom: 16px; }
+  .success-msg h2 { font-size: 20px; font-weight: 600; margin-bottom: 10px; color: #1a1a18; }
+  .success-msg p { font-size: 14px; color: #6b6b67; line-height: 1.8; }
+  .success-msg a { color: #534AB7; }
+
+  @media (max-width: 480px) {
+    body { padding: 1rem 0.75rem; }
+    .q-block, .form-header, .footer-note { padding: 1rem 1.125rem; }
+  }
+</style>
+</head>
+<body>
+<div class="form-wrap">
+
+  <div class="form-header">
+    <div class="logo">🍼</div>
+    <h1>晴媽咪育兒問卷</h1>
+    <p>感謝媽咪撥冗填寫，讓晴媽咪更了解寶貝的狀況 ✨</p>
+  </div>
+
+  <form id="survey">
+    <input type="hidden" name="_subject" value="晴媽咪育兒問卷 - 新回覆" />
+    <input type="hidden" name="_language" value="zh" />
+
+    <!-- Q1 -->
+    <div class="q-block">
+      <div class="q-label"><span class="q-num">1.</span>媽咪的寶寶月齡多大？</div>
+      <input class="text-input" type="text" name="Q1_寶寶月齡" id="q1" placeholder="請填寫月齡，例如：6 個月" required />
+    </div>
+
+    <!-- Q2 -->
+    <div class="q-block">
+      <div class="q-label"><span class="q-num">2.</span>媽咪從何知道晴媽咪食物泥（天晴工作坊）？</div>
+      <div class="option-list">
+        <label class="option-item"><input type="radio" name="Q2_知道來源" value="FB" /><label>FB</label></label>
+        <label class="option-item"><input type="radio" name="Q2_知道來源" value="IG" /><label>IG</label></label>
+        <label class="option-item"><input type="radio" name="Q2_知道來源" value="Threads" /><label>Threads</label></label>
+        <label class="option-item"><input type="radio" name="Q2_知道來源" value="晴媽咪食物泥教養學 YT" /><label>「晴媽咪食物泥教養學」YT</label></label>
+        <label class="option-item"><input type="radio" name="Q2_知道來源" value="親友介紹" /><label>親友介紹</label></label>
+        <label class="option-item"><input type="radio" name="Q2_知道來源" value="其他" /><label>其他</label></label>
+      </div>
+      <input class="other-input" type="text" name="Q2_其他來源說明" id="q2-other" placeholder="請說明其他來源⋯⋯" />
+    </div>
+
+    <!-- Q3 -->
+    <div class="q-block">
+      <div class="q-label">
+        <span class="q-num">3.</span>
+        <span>寶寶每天都有固定規律作息嗎？<span class="q-note">（每天起床、吃飯、睡覺的時間都是同樣的時間）</span></span>
+      </div>
+      <div class="option-list">
+        <label class="option-item"><input type="radio" name="Q3_固定作息" value="有" required /><label>有</label></label>
+        <label class="option-item"><input type="radio" name="Q3_固定作息" value="沒有" /><label>沒有</label></label>
+      </div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="q-block">
+      <div class="q-label"><span class="q-num">4.</span>寶寶小睡和長睡都能自行入睡、晚上一覺天亮睡滿 11 小時嗎？</div>
+      <div class="option-list">
+        <label class="option-item"><input type="radio" name="Q4_自行入睡" value="能" required /><label>能</label></label>
+        <label class="option-item"><input type="radio" name="Q4_自行入睡" value="不能" /><label>不能</label></label>
+      </div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="q-block">
+      <div class="q-label">
+        <span class="q-num">5.</span>
+        <span>目前遭遇到什麼樣的育兒問題？<span class="q-note">（可複選）</span></span>
+      </div>
+      <div class="option-list">
+        <label class="option-item"><input type="checkbox" name="Q5_育兒問題" value="吃不多、不愛吃" /><label>寶寶吃不多、不愛吃（奶和副食品都算）</label></label>
+        <label class="option-item"><input type="checkbox" name="Q5_育兒問題" value="睡不好、睡眠較短" /><label>寶寶睡不好、睡眠較短（小睡 30–60 分鐘會醒、長睡無法連續 10 小時）</label></label>
+        <label class="option-item"><input type="checkbox" name="Q5_育兒問題" value="夜奶不斷" /><label>寶寶夜奶不斷</label></label>
+        <label class="option-item"><input type="checkbox" name="Q5_育兒問題" value="不喜歡喝開水" /><label>寶寶不喜歡喝開水（滿 4 個月的寶寶）</label></label>
+        <label class="option-item"><input type="checkbox" name="Q5_育兒問題" value="常哭原因不明" /><label>寶寶常哭，但不知道原因</label></label>
+        <label class="option-item"><input type="checkbox" name="Q5_育兒問題" value="要人抱一放下就哭" /><label>寶寶要人抱，一放下就哭</label></label>
+        <label class="option-item"><input type="checkbox" name="Q5_育兒問題" value="其他" id="q5-other-check" /><label>其他</label></label>
+      </div>
+      <input class="other-input" type="text" name="Q5_其他問題說明" id="q5-other" placeholder="請說明其他問題⋯⋯" />
+    </div>
+
+    <!-- Q6 -->
+    <div class="q-block">
+      <div class="q-label"><span class="q-num">6.</span>需要預約晴媽咪免費 10 分鐘諮詢了解寶寶嗎？</div>
+      <div class="option-list">
+        <label class="option-item"><input type="radio" name="Q6_預約諮詢" value="需要" required /><label>需要（問卷送出後會與媽咪確認諮詢時間）</label></label>
+        <label class="option-item"><input type="radio" name="Q6_預約諮詢" value="目前不需要" /><label>目前不需要</label></label>
+      </div>
+    </div>
+
+    <button type="submit" class="submit-btn" id="submit-btn">送出問卷</button>
+  </form>
+
+  <div class="success-msg" id="success">
+    <div class="icon">🎉</div>
+    <h2>感謝媽咪填寫問卷！</h2>
+    <p>填完問卷可加入天晴官方會員，<br>在 Line 中提供註冊姓名，即可獲取首購金。<br><br>
+    <a href="https://www.kidsfood.com.tw/" target="_blank">👉 前往天晴官方網站</a></p>
+  </div>
+
+  <div class="footer-note">
+    <span class="event-badge">活動資訊</span>
+    <p>填完問卷可加入天晴官方會員，在 Line 中提供註冊姓名，會獲取首購金。<br>
+    <a href="https://www.kidsfood.com.tw/" target="_blank">👉 前往天晴官方網站</a></p>
+    <p style="margin-top: 10px;">歡迎報名參加 <strong>6/30（二）</strong>「晴媽咪食物泥教養學」線上系列講座 🎙️</p>
+  </div>
+
+</div>
+
+<script>
+  document.querySelectorAll('input[name="Q2_知道來源"]').forEach(r => {
+    r.addEventListener('change', () => {
+      const other = document.getElementById('q2-other');
+      other.style.display = r.value === '其他' && r.checked ? 'block' : 'none';
+    });
+  });
+
+  document.getElementById('q5-other-check').addEventListener('change', function() {
+    document.getElementById('q5-other').style.display = this.checked ? 'block' : 'none';
+  });
+
+  document.getElementById('survey').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const btn = document.getElementById('submit-btn');
+    btn.textContent = '送出中⋯⋯';
+    btn.disabled = true;
+
+    const formData = new FormData(this);
+
+    try {
+      const res = await fetch('https://formspree.io/stocktoto@gmail.com', {
+        method: 'POST',
+        body: formData,
+        headers: { 'Accept': 'application/json' }
+      });
+      if (res.ok) {
+        this.style.display = 'none';
+        document.getElementById('success').style.display = 'block';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        btn.textContent = '送出失敗，請再試一次';
+        btn.disabled = false;
+        btn.style.background = '#c0392b';
+      }
+    } catch (err) {
+      btn.textContent = '網路錯誤，請再試一次';
+      btn.disabled = false;
+      btn.style.background = '#c0392b';
+    }
+  });
+</script>
+</body>
+</html>
